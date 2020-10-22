@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	
+</head>
+<body>
+	<div class="container">
+  <h2>Forms validation</h2>
+
+    <div class="form-group">
+    	<h2 id="result" style="text-align: center;"></h2>
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter Name">
+
+      <div  class="invalid-feedback">
+      	Name must be between 2 and 10 characters
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="zip">Zip code</label>
+      <input type="text" class="form-control" id="zip" placeholder="Enter Zip Code">
+
+      <div  class="invalid-feedback">
+      	Invalid Character
+      </div>
+    </div>
+
+    	<div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter Email">
+
+      <div  class="invalid-feedback">
+      	Invalid Character
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone-Number</label>
+      <input type="text" class="form-control" id="phone" placeholder="Enter Phone-Number">
+
+      <div  class="invalid-feedback">
+      	Invalid Character
+      </div><br>
+
+    <button onclick="submit()" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</body>
+
+	<script type="text/javascript">
+
+		var nameError = true;
+		var zipError = true;
+		var emailError = true;
+		var phoneError = true;
+
+		var name = document.getElementById('name').value;
+		var zip = document.getElementById('zip').value;
+		var email = document.getElementById('email').value;
+		var phone = document.getElementById('phone').value;
+
+
+
+		document.getElementById('name').addEventListener('blur', function(validateName){
+			name = document.getElementById('name').value;
+			let re = /^[a-zA-Z]{2,10}$/;
+
+			
+			if (!re.test(name)) {
+				result.innerHTML ="Error"
+				nameError = true
+			} else {
+				nameError = false
+				result.innerHTML = "Correct"
+			}
+		})
+
+		document.getElementById('zip').addEventListener('blur', function(validateZip){
+				zip = document.getElementById('zip').value;
+				let zp = /^[0-9]{5}(-[0-9]{4})?$/;
+
+				if (!zp.test(zip)) {
+					zipError = true
+					result.innerHTML ="Error"
+				} else {
+					zipError = false;
+					result.innerHTML ="Correct"
+				}
+		})
+
+		document.getElementById('email').addEventListener('blur', function(validateEmail){
+			 email = document.getElementById('email').value;
+			let em = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z_\-\.]+)\.([a-zA-Z]{2,5})$/;
+
+			if (!em.test(email)) {
+				emailError = true
+				result.innerHTML ="Error"
+			} else {
+				emailError = false
+				result.innerHTML ="Correct"
+			}
+		})
+
+		document.getElementById('phone').addEventListener('blur', function(validatePhone){
+			phone = document.getElementById('phone').value;
+			let ph = /^\(?[0-9]{4}\)?[-. ]?[0-9]{4}[-. ]?[0-9]{3}$/;
+
+			// let re = /^([+][0-9]{3})[\d]{10}$/
+
+			if (!ph.test(phone)) {
+				phoneError = true
+				result.innerHTML ="Error"
+
+			} else {
+				phoneError = false
+				result.innerHTML ="Correct"
+			}
+
+		})
+
+
+		let submit =()=>{
+
+			var obj = {
+
+			Name:name,
+			Zip:zip,
+			Email:email,
+			Phone:phone
+		}
+
+	
+			
+
+		if (nameError || zipError || emailError || phoneError) {
+				alert("Input not inserted correctly")
+		} 
+
+		else if (localStorage.form) {
+			let collect = JSON.parse(localStorage.form)
+			collect.push(obj)
+			localStorage.form = JSON.stringify(collect)
+			alert("Forms added Successful")
+		}
+
+
+		else if (!nameError && !zipError && !emailError && !phoneError) {
+				let forms = [obj]
+				localStorage.form = JSON.stringify(forms)
+				alert("Forms added Successful")
+				
+			} 
+
+			else {
+				alert("Invalid Input")
+			}
+		}
+	
+	</script>
+</html>
+
+	
